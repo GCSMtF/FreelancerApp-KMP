@@ -1,0 +1,145 @@
+-- 프로젝트 테이블
+CREATE TABLE IF NOT EXISTS projects (
+    id TEXT NOT NULL PRIMARY KEY,
+    userId TEXT NOT NULL,
+    clientId TEXT,
+    clientName TEXT NOT NULL DEFAULT '',
+    clientCompany TEXT NOT NULL DEFAULT '',
+    clientEmail TEXT NOT NULL DEFAULT '',
+    startDate INTEGER NOT NULL,
+    endDate INTEGER NOT NULL,
+    brand TEXT NOT NULL,
+    workType TEXT NOT NULL,
+    cuts INTEGER NOT NULL,
+    basePrice INTEGER NOT NULL,
+    extraCost INTEGER NOT NULL DEFAULT 0,
+    propsHandling INTEGER NOT NULL DEFAULT 0,
+    propsSummer INTEGER NOT NULL DEFAULT 0,
+    propsKkojae INTEGER NOT NULL DEFAULT 0,
+    status TEXT NOT NULL DEFAULT 'IN_PROGRESS',
+    paymentDate INTEGER,
+    memo TEXT NOT NULL DEFAULT '',
+    createdAt INTEGER NOT NULL
+);
+
+-- 클라이언트 테이블
+CREATE TABLE IF NOT EXISTS clients (
+    id TEXT NOT NULL PRIMARY KEY,
+    userId TEXT NOT NULL,
+    company TEXT NOT NULL,
+    name TEXT NOT NULL DEFAULT '',
+    email TEXT NOT NULL DEFAULT '',
+    phone TEXT NOT NULL DEFAULT '',
+    memo TEXT NOT NULL DEFAULT '',
+    createdAt INTEGER NOT NULL
+);
+
+-- 사용자 프로필 테이블
+CREATE TABLE IF NOT EXISTS user_profile (
+    id TEXT NOT NULL PRIMARY KEY,
+    userId TEXT NOT NULL,
+    name TEXT NOT NULL DEFAULT '',
+    phone TEXT NOT NULL DEFAULT '',
+    email TEXT NOT NULL DEFAULT '',
+    bankName TEXT NOT NULL DEFAULT '',
+    accountNumber TEXT NOT NULL DEFAULT '',
+    accountHolder TEXT NOT NULL DEFAULT '',
+    businessNumber TEXT NOT NULL DEFAULT '',
+    address TEXT NOT NULL DEFAULT '',
+    taxRate REAL NOT NULL DEFAULT 3.3,
+    updatedAt INTEGER NOT NULL
+);
+
+-- 소품비 테이블
+CREATE TABLE IF NOT EXISTS prop_items (
+    id TEXT NOT NULL PRIMARY KEY,
+    projectId TEXT NOT NULL,
+    name TEXT NOT NULL,
+    amount INTEGER NOT NULL,
+    receiptUri TEXT,
+    memo TEXT NOT NULL DEFAULT '',
+    createdAt INTEGER NOT NULL,
+    FOREIGN KEY (projectId) REFERENCES projects(id) ON DELETE CASCADE
+);
+
+-- =====================================================
+-- 프로젝트 쿼리
+-- =====================================================
+
+getProjectsByUser:
+SELECT * FROM projects WHERE userId = ? ORDER BY startDate DESC;
+
+getProjectById:
+SELECT * FROM projects WHERE id = ?;
+
+insertProject:
+INSERT OR REPLACE INTO projects (id, userId, clientId, clientName, clientCompany, clientEmail, startDate, endDate, brand, workType, cuts, basePrice, extraCost, propsHandling, propsSummer, propsKkojae, status, paymentDate, memo, createdAt)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+updateProject:
+UPDATE projects SET clientId = ?, clientName = ?, clientCompany = ?, clientEmail = ?, startDate = ?, endDate = ?, brand = ?, workType = ?, cuts = ?, basePrice = ?, extraCost = ?, propsHandling = ?, propsSummer = ?, propsKkojae = ?, status = ?, paymentDate = ?, memo = ?
+WHERE id = ?;
+
+deleteProjectById:
+DELETE FROM projects WHERE id = ?;
+
+getProjectCount:
+SELECT COUNT(*) FROM projects WHERE userId = ?;
+
+-- =====================================================
+-- 클라이언트 쿼리
+-- =====================================================
+
+getClientsByUser:
+SELECT * FROM clients WHERE userId = ? ORDER BY company ASC;
+
+getClientById:
+SELECT * FROM clients WHERE id = ?;
+
+insertClient:
+INSERT OR REPLACE INTO clients (id, userId, company, name, email, phone, memo, createdAt)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+updateClient:
+UPDATE clients SET company = ?, name = ?, email = ?, phone = ?, memo = ?
+WHERE id = ?;
+
+deleteClientById:
+DELETE FROM clients WHERE id = ?;
+
+getClientCount:
+SELECT COUNT(*) FROM clients WHERE userId = ?;
+
+-- =====================================================
+-- 프로필 쿼리
+-- =====================================================
+
+getProfile:
+SELECT * FROM user_profile WHERE userId = ? LIMIT 1;
+
+saveProfile:
+INSERT OR REPLACE INTO user_profile (id, userId, name, phone, email, bankName, accountNumber, accountHolder, businessNumber, address, taxRate, updatedAt)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+deleteProfile:
+DELETE FROM user_profile WHERE userId = ?;
+
+-- =====================================================
+-- 소품비 쿼리
+-- =====================================================
+
+getPropsForProject:
+SELECT * FROM prop_items WHERE projectId = ? ORDER BY createdAt ASC;
+
+getPropsForProjects:
+SELECT * FROM prop_items WHERE projectId IN ?;
+
+insertPropItem:
+INSERT OR REPLACE INTO prop_items (id, projectId, name, amount, receiptUri, memo, createdAt)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+deletePropItemById:
+DELETE FROM prop_items WHERE id = ?;
+
+deleteAllPropsForProject:
+DELETE FROM prop_items WHERE projectId = ?;

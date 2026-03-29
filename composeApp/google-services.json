@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "738332298428",
+    "project_id": "freelancerapp-ba4db",
+    "storage_bucket": "freelancerapp-ba4db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738332298428:android:6076afb65088938baf94b9",
+        "android_client_info": {
+          "package_name": "com.xommore.freelancerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBbYrZ2TLZUdCPQlj1-pcbjy-VnhoXumc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

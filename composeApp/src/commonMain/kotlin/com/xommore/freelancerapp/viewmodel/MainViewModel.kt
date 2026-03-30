@@ -354,7 +354,14 @@ class MainViewModel(database: FreelancerDatabase) : ViewModel() {
             }
         }
     }
-
+    /**
+     * 여러 프로젝트의 소품비를 한번에 조회
+     */
+    suspend fun getPropsForProjects(projectIds: List<String>): Map<String, List<PropItem>> {
+        return projectIds.associateWith { projectId ->
+            propItemRepository.getPropsForProjectOnce(projectId)
+        }
+    }
     fun clearAllData() {
         viewModelScope.launch {
             projects.value.forEach { projectRepository.deleteProject(it.id) }

@@ -69,41 +69,19 @@ fun FreelancerApp(
                             onNavigateToProjects = { selectedTab = 1 },
                             viewModel = mainViewModel
                         )
-                        1 -> {
-                            // TODO: Step 9에서 ProjectsScreen 이식
-                            PlaceholderScreen("프로젝트")
-                        }
-                        2 -> {
-                            // TODO: Step 9에서 StatementScreen 이식
-                            PlaceholderScreen("정산서")
-                        }
-                        3 -> {
-                            // TODO: Step 9에서 StatsScreen 이식
-                            PlaceholderScreen("통계")
-                        }
-                        4 -> {
-                            // TODO: Step 9에서 SettingsScreen 이식
-                            PlaceholderScreen("설정")
-                        }
+                        1 -> ProjectsScreen(
+                            viewModel = mainViewModel
+                        )
+                        2 -> StatementScreen(viewModel = mainViewModel)
+                        3 -> StatsScreen(viewModel = mainViewModel)
+                        4 -> SettingsScreen(
+                            viewModel = mainViewModel,
+                            authViewModel = authViewModel,
+                            userEmail = authState.user?.email
+                        )
                     }
                 }
             }
         }
-    }
-}
-
-/**
- * 아직 이식하지 않은 화면용 플레이스홀더
- */
-@Composable
-private fun PlaceholderScreen(name: String) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "${name} 화면\n(다음 Step에서 구현)",
-            fontSize = 16.sp
-        )
     }
 }

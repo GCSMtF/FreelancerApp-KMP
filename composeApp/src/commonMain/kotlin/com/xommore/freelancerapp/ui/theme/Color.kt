@@ -55,3 +55,7 @@ val StatusPendingText = Color(0xFF92400E)
 // 입금완료 (초록색 계열)
 val StatusPaidBg = Color(0xFFD1FAE5)
 val StatusPaidText = Color(0xFF065F46)
+
+// 기타
+val NegativeRed = Color(0xFFEF4444)
+val CardBorder = Color(0xFFE5E7EB)

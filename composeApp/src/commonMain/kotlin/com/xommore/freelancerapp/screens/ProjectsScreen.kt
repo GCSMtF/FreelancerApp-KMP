@@ -35,6 +35,7 @@ import com.xommore.freelancerapp.data.getMonth
 import com.xommore.freelancerapp.ui.components.*
 import com.xommore.freelancerapp.ui.theme.*
 import com.xommore.freelancerapp.viewmodel.MainViewModel
+import kotlinx.datetime.Clock
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -718,7 +719,7 @@ private fun ProjectDialog(
     // 소품비 입력 다이얼로그
     if (showPropDialog) {
         PropItemInputDialog(
-            projectId = project?.id ?: kotlinx.datetime.Clock.System.now().toEpochMilliseconds().toString(),
+            projectId = project?.id ?: Clock.System.now().toEpochMilliseconds().toString(),
             existingProps = propItems,
             onSave = { newProps -> propItems = newProps; showPropDialog = false },
             onDismiss = { showPropDialog = false }

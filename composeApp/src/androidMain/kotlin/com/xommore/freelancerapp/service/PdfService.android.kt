@@ -45,7 +45,8 @@ actual fun PdfExportButton(
                         projects = pdfRequest.projects,
                         userProfile = pdfRequest.userProfile,
                         clientName = pdfRequest.clientName,
-                        propsMap = pdfRequest.propsMap
+                        propsMap = pdfRequest.propsMap,
+                        propItems = pdfRequest.propItems
                     )
                 }
                 isGenerating = false

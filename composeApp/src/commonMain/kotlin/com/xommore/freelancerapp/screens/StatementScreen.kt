@@ -39,9 +39,11 @@ fun StatementScreen(
 
     // 소품비 데이터
     var propsMap by remember { mutableStateOf<Map<String, Long>>(emptyMap()) }
+    var propItemsMap by remember { mutableStateOf<Map<String, List<com.xommore.freelancerapp.data.model.PropItem>>>(emptyMap()) }
     LaunchedEffect(projects) {
         if (projects.isNotEmpty()) {
             val propsData = viewModel.getPropsForProjects(projects.map { it.id })
+            propItemsMap = propsData
             propsMap = propsData.mapValues { (_, props) -> props.sumOf { it.amount } }
         }
     }
@@ -224,7 +226,8 @@ fun StatementScreen(
                                     month = selectedMonth,
                                     projects = projects,
                                     userProfile = userProfile,
-                                    propsMap = propsMap
+                                    propsMap = propsMap,
+                                    propItems = propItemsMap
                                 ),
                                 onResult = { success, message ->
                                     // 결과 처리

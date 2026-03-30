@@ -3,13 +3,14 @@ package com.xommore.freelancerapp.ui.components
 import com.xommore.freelancerapp.data.getYear
 import com.xommore.freelancerapp.data.getMonth
 import com.xommore.freelancerapp.data.getDay
+import kotlin.math.abs
 
 /**
  * 금액 포맷팅 (예: 4544900 → "4,544,900원")
  */
 fun formatCurrency(amount: Long): String {
     val isNegative = amount < 0
-    val absStr = kotlin.math.abs(amount).toString()
+    val absStr = abs(amount).toString()
     val formatted = buildString {
         absStr.reversed().forEachIndexed { index, c ->
             if (index > 0 && index % 3 == 0) append(',')

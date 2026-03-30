@@ -16,7 +16,8 @@ data class PdfRequest(
     val projects: List<Project>,
     val userProfile: UserProfile?,
     val clientName: String? = null,
-    val propsMap: Map<String, Long> = emptyMap()
+    val propsMap: Map<String, Long> = emptyMap(),
+    val propItems: Map<String, List<com.xommore.freelancerapp.data.model.PropItem>> = emptyMap()
 )
 
 @Composable

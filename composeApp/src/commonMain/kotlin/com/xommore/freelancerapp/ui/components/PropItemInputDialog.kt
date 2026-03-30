@@ -26,6 +26,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.xommore.freelancerapp.data.model.PropItem
 import com.xommore.freelancerapp.ui.theme.*
+import com.xommore.freelancerapp.service.OcrScanButtons
 
 /**
  * 편집용 소품비 아이템
@@ -70,6 +71,9 @@ fun PropItemInputDialog(
 
     // 총 금액 계산
     val totalAmount = propItems.sumOf { it.amount.toLongOrNull() ?: 0L }
+
+    // OCR 스캔 상태
+    var isScanning by remember { mutableStateOf(false) }
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -138,6 +142,21 @@ fun PropItemInputDialog(
                 }
 
                 HorizontalDivider()
+
+                // OCR 스캔 버튼 (플랫폼별)
+                OcrScanButtons(
+                    isScanning = isScanning,
+                    onScanResult = { newItems ->
+                        propItems = propItems.toMutableList().apply {
+                            // 마지막 빈 항목 제거
+                            if (lastOrNull()?.name?.isBlank() == true && lastOrNull()?.amount?.isBlank() == true) {
+                                removeAt(lastIndex)
+                            }
+                            addAll(newItems)
+                        }
+                    },
+                    onScanningChange = { isScanning = it }
+                )
 
                 // 소품비 목록
                 LazyColumn(

@@ -66,7 +66,10 @@ fun FreelancerApp(
                 ) {
                     when (selectedTab) {
                         0 -> HomeScreen(
-                            onNavigateToProjects = { selectedTab = 1 },
+                            onNavigateToProjects = { statusFilter ->
+                                // TODO: statusFilter를 ProjectsScreen에 전달
+                                selectedTab = 1
+                            },
                             viewModel = mainViewModel
                         )
                         1 -> ProjectsScreen(

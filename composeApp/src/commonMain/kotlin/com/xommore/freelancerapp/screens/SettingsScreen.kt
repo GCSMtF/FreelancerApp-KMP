@@ -22,6 +22,7 @@ import com.xommore.freelancerapp.viewmodel.AuthViewModel
 import com.xommore.freelancerapp.viewmodel.MainViewModel
 import com.xommore.freelancerapp.service.BackupData
 import com.xommore.freelancerapp.service.BackupRestoreButtons
+import com.xommore.freelancerapp.service.EmailSettingsScreen as PlatformEmailSettingsScreen
 
 @Composable
 fun SettingsScreen(
@@ -37,6 +38,7 @@ fun SettingsScreen(
     var showProfileSettings by remember { mutableStateOf(false) }
     var showClientManagement by remember { mutableStateOf(false) }
     var showBackupRestore by remember { mutableStateOf(false) }
+    var showEmailSettings by remember { mutableStateOf(false) }
 
     // 하위 화면 분기
     when {
@@ -64,6 +66,9 @@ fun SettingsScreen(
                 onRestoreOverwrite = { p, c, u -> viewModel.restoreOverwrite(p, c, u) },
                 onClearData = { viewModel.clearAllData() }
             )
+        }
+        showEmailSettings -> {
+            PlatformEmailSettingsScreen(onBack = { showEmailSettings = false })
         }
         else -> {
             // 메인 설정 화면
@@ -135,6 +140,15 @@ fun SettingsScreen(
                             title = "클라이언트 관리",
                             subtitle = "${clients.size}개의 클라이언트",
                             onClick = { showClientManagement = true }
+                        )
+                    }
+
+                    item {
+                        SettingsMenuItem(
+                            icon = Icons.Default.Email, iconColor = StatusPaidText,
+                            title = "이메일 발송 설정",
+                            subtitle = "Gmail 앱 비밀번호 설정",
+                            onClick = { showEmailSettings = true }
                         )
                     }
 

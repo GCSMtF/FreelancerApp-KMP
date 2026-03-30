@@ -7,8 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.*import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +23,7 @@ import com.xommore.freelancerapp.viewmodel.MainViewModel
 import com.xommore.freelancerapp.service.PdfRequest
 import com.xommore.freelancerapp.service.PdfExportButton
 import com.xommore.freelancerapp.service.ClipboardCopyButton
+import com.xommore.freelancerapp.service.EmailSendButton
 
 /**
  * 정산서 화면 (commonMain)
@@ -233,16 +233,12 @@ fun StatementScreen(
                         }
                     }
 
-                    Button(
-                        onClick = { /* TODO: 이메일 발송 — Android 전용 */ },
-                        modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(14.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Blue),
-                        enabled = false
-                    ) {
-                        Icon(Icons.Default.Email, contentDescription = "이메일", modifier = Modifier.size(18.dp))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("📧 클라이언트에게 정산서 발송", fontWeight = FontWeight.SemiBold)
-                    }
+                    EmailSendButton(
+                        projects = projects,
+                        selectedYear = selectedYear,
+                        selectedMonth = selectedMonth,
+                        propsMap = propsMap
+                    )
                 }
             }
 

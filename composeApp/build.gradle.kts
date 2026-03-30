@@ -68,6 +68,10 @@ kotlin {
             implementation("com.google.firebase:firebase-auth-ktx")
             implementation("com.google.firebase:firebase-firestore-ktx")
             implementation("com.google.firebase:firebase-common-ktx")
+            implementation("com.sun.mail:android-mail:1.6.7")
+            implementation("com.sun.mail:android-activation:1.6.7")
+            // EncryptedSharedPreferences
+            implementation("androidx.security:security-crypto:1.1.0-alpha06")
         }
 
         iosMain.dependencies {

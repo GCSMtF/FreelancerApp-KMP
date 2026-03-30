@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.sp
 import com.xommore.freelancerapp.ui.theme.*
 import com.xommore.freelancerapp.viewmodel.AuthViewModel
 import com.xommore.freelancerapp.viewmodel.MainViewModel
+import com.xommore.freelancerapp.service.BackupData
+import com.xommore.freelancerapp.service.BackupRestoreButtons
 
 @Composable
 fun SettingsScreen(
@@ -34,6 +36,7 @@ fun SettingsScreen(
     var showLogoutDialog by remember { mutableStateOf(false) }
     var showProfileSettings by remember { mutableStateOf(false) }
     var showClientManagement by remember { mutableStateOf(false) }
+    var showBackupRestore by remember { mutableStateOf(false) }
 
     // 하위 화면 분기
     when {
@@ -51,6 +54,15 @@ fun SettingsScreen(
                 onAddClient = { viewModel.addClient(it) },
                 onUpdateClient = { viewModel.updateClient(it) },
                 onDeleteClient = { viewModel.deleteClient(it) }
+            )
+        }
+        showBackupRestore -> {
+            BackupRestoreScreen(
+                backupData = BackupData(projects, clients, userProfile),
+                onBack = { showBackupRestore = false },
+                onRestoreMerge = { p, c, u -> viewModel.restoreMerge(p, c, u) },
+                onRestoreOverwrite = { p, c, u -> viewModel.restoreOverwrite(p, c, u) },
+                onClearData = { viewModel.clearAllData() }
             )
         }
         else -> {
@@ -136,7 +148,7 @@ fun SettingsScreen(
                             icon = Icons.Default.CloudUpload, iconColor = StatusPaidText,
                             title = "데이터 백업/복원",
                             subtitle = "프로젝트 ${projects.size}개, 클라이언트 ${clients.size}개",
-                            onClick = { /* TODO: Android 전용 — Step 11 */ }
+                            onClick = { showBackupRestore = true }
                         )
                     }
 

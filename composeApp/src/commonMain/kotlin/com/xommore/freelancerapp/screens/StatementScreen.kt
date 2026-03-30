@@ -21,6 +21,9 @@ import com.xommore.freelancerapp.data.getMonth
 import com.xommore.freelancerapp.ui.components.*
 import com.xommore.freelancerapp.ui.theme.*
 import com.xommore.freelancerapp.viewmodel.MainViewModel
+import com.xommore.freelancerapp.service.PdfRequest
+import com.xommore.freelancerapp.service.PdfExportButton
+import com.xommore.freelancerapp.service.ClipboardCopyButton
 
 /**
  * 정산서 화면 (commonMain)
@@ -170,20 +173,64 @@ fun StatementScreen(
                 }
             }
 
-            // 내보내기 버튼 (공통 — PDF/이메일은 Android에서 구현)
+            // 내보내기 버튼
             item {
+                val userProfile by viewModel.userProfile.collectAsState()
+
+                // 정산서 텍스트 생성 (복사용)
+                val statementText = remember(projects, propsMap, selectedYear, selectedMonth, netIncome, totalProps) {
+                    buildString {
+                        appendLine("=== 프리랜서 정산서 ===")
+                        appendLine("정산 기간: $startDateStr ~ $endDateStr")
+                        appendLine()
+                        appendLine("[ 인건비 ]")
+                        appendLine("총 인건비: ${formatCurrency(totalLabor)}")
+                        appendLine("세금 (3.3%): -${formatCurrency(totalTax)}")
+                        appendLine("실수령 인건비: ${formatCurrency(netIncome)}")
+                        appendLine()
+                        appendLine("[ 소품비 (청구) ]")
+                        appendLine("소품비 합계: ${formatCurrency(totalProps)}")
+                        appendLine()
+                        appendLine("==================")
+                        appendLine("최종 정산 금액: ${formatCurrency(finalAmount)}")
+                        appendLine("==================")
+                        appendLine()
+                        appendLine("--- 상세 내역 ---")
+                        projects.forEach { project ->
+                            val propAmount = propsMap[project.id] ?: 0L
+                            if (propAmount > 0) {
+                                appendLine("${project.brand}: ${formatCurrency(project.netIncome)} + 소품비 ${formatCurrency(propAmount)} = ${formatCurrency(project.netIncome + propAmount)}")
+                            } else {
+                                appendLine("${project.brand}: ${formatCurrency(project.netIncome)}")
+                            }
+                        }
+                    }
+                }
+
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        OutlinedButton(
-                            onClick = { /* TODO: 클립보드 복사 — 플랫폼별 구현 */ },
-                            modifier = Modifier.weight(1f), shape = RoundedCornerShape(14.dp)
-                        ) { Text("📋 복사하기", fontWeight = FontWeight.SemiBold) }
+                        Box(modifier = Modifier.weight(1f)) {
+                            ClipboardCopyButton(
+                                text = statementText,
+                                onCopied = { /* 복사 완료 */ }
+                            )
+                        }
 
-                        Button(
-                            onClick = { /* TODO: PDF — Android 전용 */ },
-                            modifier = Modifier.weight(1f), shape = RoundedCornerShape(14.dp),
-                            enabled = projects.isNotEmpty()
-                        ) { Text("📄 PDF", fontWeight = FontWeight.SemiBold) }
+                        Box(modifier = Modifier.weight(1f)) {
+                            PdfExportButton(
+                                enabled = projects.isNotEmpty(),
+                                pdfRequest = PdfRequest(
+                                    year = selectedYear,
+                                    month = selectedMonth,
+                                    projects = projects,
+                                    userProfile = userProfile,
+                                    propsMap = propsMap
+                                ),
+                                onResult = { success, message ->
+                                    // 결과 처리
+                                }
+                            )
+                        }
                     }
 
                     Button(

@@ -32,7 +32,7 @@ import com.xommore.freelancerapp.service.OcrScanButtons
  * 편집용 소품비 아이템
  */
 data class EditablePropItem(
-    val id: String = kotlinx.datetime.Clock.System.now().toEpochMilliseconds().toString(),
+    val id: String = com.xommore.freelancerapp.data.currentTimeMillis().toString(),
     val name: String = "",
     val amount: String = "",
     val memo: String = "",

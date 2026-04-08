@@ -446,7 +446,7 @@ private fun ProjectDialog(
                             if (brand.isNotBlank() && cuts.isNotBlank() && basePrice.isNotBlank()) {
                                 val selectedClient = selectedClientId?.let { id -> clients.find { it.id == id } }
                                 val newProject = Project(
-                                    id = project?.id ?: kotlinx.datetime.Clock.System.now().toEpochMilliseconds().toString(),
+                                    id = project?.id ?: com.xommore.freelancerapp.data.currentTimeMillis().toString(),
                                     userId = project?.userId ?: "",
                                     brand = brand.trim(),
                                     workType = workType,
@@ -719,7 +719,7 @@ private fun ProjectDialog(
     // 소품비 입력 다이얼로그
     if (showPropDialog) {
         PropItemInputDialog(
-            projectId = project?.id ?: Clock.System.now().toEpochMilliseconds().toString(),
+            projectId = project?.id ?: com.xommore.freelancerapp.data.currentTimeMillis().toString(),
             existingProps = propItems,
             onSave = { newProps -> propItems = newProps; showPropDialog = false },
             onDismiss = { showPropDialog = false }

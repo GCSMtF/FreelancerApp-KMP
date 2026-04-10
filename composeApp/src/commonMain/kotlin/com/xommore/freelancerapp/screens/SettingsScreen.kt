@@ -1,5 +1,5 @@
 package com.xommore.freelancerapp.ui.screens
-
+import com.xommore.freelancerapp.service.DepositAlertSettingsScreen as PlatformDepositSettingsScreen
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,6 +39,7 @@ fun SettingsScreen(
     var showClientManagement by remember { mutableStateOf(false) }
     var showBackupRestore by remember { mutableStateOf(false) }
     var showEmailSettings by remember { mutableStateOf(false) }
+    var showDepositSettings by remember { mutableStateOf(false) }
 
     // 하위 화면 분기
     when {
@@ -69,6 +70,12 @@ fun SettingsScreen(
         }
         showEmailSettings -> {
             PlatformEmailSettingsScreen(onBack = { showEmailSettings = false })
+        }
+        showDepositSettings -> {
+            PlatformDepositSettingsScreen(
+                clients = clients,
+                onBack = { showDepositSettings = false }
+            )
         }
         else -> {
             // 메인 설정 화면
@@ -149,6 +156,20 @@ fun SettingsScreen(
                             title = "이메일 발송 설정",
                             subtitle = "Gmail 앱 비밀번호 설정",
                             onClick = { showEmailSettings = true }
+                        )
+                    }
+
+                    // 입금 알림 섹션
+                    item {
+                        Text("입금 알림", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 16.dp, bottom = 4.dp))
+                    }
+
+                    item {
+                        SettingsMenuItem(
+                            icon = Icons.Default.Notifications, iconColor = StatusPaidText,
+                            title = "입금 알림 설정",
+                            subtitle = "은행 입금 감지 및 알림",
+                            onClick = { showDepositSettings = true }
                         )
                     }
 

@@ -203,6 +203,7 @@ class MainViewModel(database: FreelancerDatabase) : ViewModel() {
         viewModelScope.launch {
             val profileWithUserId = profile.copy(userId = currentUserId)
             userProfileRepository.saveProfile(profileWithUserId)
+            _userProfile.value = profileWithUserId
         }
     }
 

@@ -190,6 +190,8 @@ fun LoginScreen(
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                             singleLine = true,
                             colors = OutlinedTextFieldDefaults.colors(
+                                focusedTextColor = TextPrimary,
+                                unfocusedTextColor = TextPrimary,
                                 focusedBorderColor = Navy,
                                 focusedLabelColor = Navy
                             )
@@ -224,6 +226,8 @@ fun LoginScreen(
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             singleLine = true,
                             colors = OutlinedTextFieldDefaults.colors(
+                                focusedTextColor = TextPrimary,
+                                unfocusedTextColor = TextPrimary,
                                 focusedBorderColor = Navy,
                                 focusedLabelColor = Navy
                             )
@@ -259,6 +263,8 @@ fun LoginScreen(
                                     }
                                 },
                                 colors = OutlinedTextFieldDefaults.colors(
+                                    focusedTextColor = TextPrimary,
+                                    unfocusedTextColor = TextPrimary,
                                     focusedBorderColor = Navy,
                                     focusedLabelColor = Navy
                                 )
@@ -346,6 +352,9 @@ private fun PasswordResetDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
+        containerColor = Surface,
+        titleContentColor = TextPrimary,
+        textContentColor = TextPrimary,
         title = {
             Text(
                 text = "비밀번호 재설정",
@@ -377,6 +386,8 @@ private fun PasswordResetDialog(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     singleLine = true,
                     colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = TextPrimary,
+                        unfocusedTextColor = TextPrimary,
                         focusedBorderColor = Navy,
                         focusedLabelColor = Navy
                     )

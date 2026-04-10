@@ -1,7 +1,7 @@
 package com.xommore.freelancerapp.ui
 
 import androidx.compose.runtime.Composable
-import platform.darwin.exit
+import platform.posix.exit
 
 @Composable
 actual fun BackHandler(enabled: Boolean, onBack: () -> Unit) {

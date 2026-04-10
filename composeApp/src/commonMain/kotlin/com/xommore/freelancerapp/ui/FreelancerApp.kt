@@ -15,15 +15,9 @@ import com.xommore.freelancerapp.viewmodel.AuthViewModel
 import com.xommore.freelancerapp.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 
-/**
- * 뒤로가기 핸들러 (expect/actual)
- */
 @Composable
 expect fun BackHandler(enabled: Boolean, onBack: () -> Unit)
 
-/**
- * 앱 종료 (expect/actual)
- */
 expect fun exitApp()
 
 @Composable
@@ -37,7 +31,6 @@ fun FreelancerApp(
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
-    // 뒤로가기 두 번 종료용
     var backPressedOnce by remember { mutableStateOf(false) }
 
     FreelancerAppTheme {
@@ -47,19 +40,18 @@ fun FreelancerApp(
                 onSignIn = { email, password -> authViewModel.signIn(email, password) },
                 onSignUp = { email, password -> authViewModel.signUp(email, password) },
                 onPasswordReset = { email -> authViewModel.sendPasswordResetEmail(email) },
-                onClearError = { authViewModel.clearError() }
+                onClearError = { authViewModel.clearError() },
+                onGoogleSignInSuccess = {
+                    authViewModel.refreshAuthState()
+                }
             )
         } else {
-            // 뒤로가기 처리
             BackHandler(enabled = true) {
                 if (selectedTab != 0) {
-                    // 다른 탭 → 홈으로
                     selectedTab = 0
                 } else if (backPressedOnce) {
-                    // 홈에서 두 번째 뒤로가기 → 앱 종료
                     exitApp()
                 } else {
-                    // 홈에서 첫 번째 뒤로가기 → 안내 메시지
                     backPressedOnce = true
                     coroutineScope.launch {
                         snackbarHostState.showSnackbar("한 번 더 누르면 앱이 종료됩니다")
@@ -84,9 +76,7 @@ fun FreelancerApp(
                 ) {
                     when (selectedTab) {
                         0 -> HomeScreen(
-                            onNavigateToProjects = { statusFilter ->
-                                selectedTab = 1
-                            },
+                            onNavigateToProjects = { statusFilter -> selectedTab = 1 },
                             viewModel = mainViewModel
                         )
                         1 -> ProjectsScreen(viewModel = mainViewModel)

@@ -122,6 +122,14 @@ class AuthViewModel : ViewModel() {
         _authState.value = _authState.value.copy(error = null)
     }
 
+    fun refreshAuthState() {
+        val currentUser = auth.currentUser
+        _authState.value = AuthState(
+            isLoggedIn = currentUser != null,
+            user = currentUser
+        )
+    }
+
     // 비밀번호 재설정 상태 클리어
     fun clearPasswordResetSent() {
         _authState.value = _authState.value.copy(passwordResetSent = false)

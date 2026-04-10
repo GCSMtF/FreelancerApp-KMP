@@ -12,7 +12,20 @@
           "package_name": "com.xommore.freelancerapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "738332298428-4kp569tub61gi8jvnkb97luc33acs4f9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.xommore.freelancerapp",
+            "certificate_hash": "4f6f07d3a6773cf8b8aadf8979eefb46ce2a9187"
+          }
+        },
+        {
+          "client_id": "738332298428-ukfh3j8eng3e7mq033r5nmnibcbvu8l5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBBbYrZ2TLZUdCPQlj1-pcbjy-VnhoXumc"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "738332298428-ukfh3j8eng3e7mq033r5nmnibcbvu8l5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "738332298428-uvl3fv433l6i6a0cbogae0kqo9b49o0o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.xommore.freelancerapp"
+              }
+            }
+          ]
         }
       }
     }
